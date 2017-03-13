@@ -13,6 +13,8 @@ from .source_enumerator import SourceEnumerator
 from ert.util import installAbortSignals
 from ert.util import Version
 
+TESTDATA_ROOT = None
+SHARE_ROOT = None
 SOURCE_ROOT = None
 BUILD_ROOT = None
 try:
@@ -143,20 +145,14 @@ class ExtendedTestCase(TestCase):
             raise IOError("No such file or directory: %s" % full_path)
 
 
-    def createSharePath(self, path, share_root=None):
-        if share_root is None and self.__share_root is None:
-            self.setShareRoot(ExtendedTestCase.findShareRoot())
+    def createSharePath(self, path):
+        share_path = os.path.realpath(os.path.join(SHARE_PATH , path))
+        if os.path.exists( share_path ):
+            return share_path
+        else:
+            raise IOError("No such file or directory: %s" % share_path)
 
-        root_path = self.__share_root
-        if share_root is not None:
-            if not os.path.exists(share_root):
-                raise IOError("Path: %s not found" % share_root)
-
-            root_path = share_root
-
-        return os.path.realpath(os.path.join(root_path , path))
-
-
+        
     @staticmethod
     def findShareRoot():
         file_path = os.path.realpath(__file__)
