@@ -134,12 +134,6 @@ class ExtendedTestCase(TestCase):
             self.assertEqual(class_value, value, "Enum value for identifier: %s does not match: %s != %s" % (identifier, class_value, value))
 
 
-
-    def setShareRoot(self, share_root):
-        self.__share_root = share_root
-        if not os.path.exists(self.__share_root):
-            raise IOError("Path: %s not found" % self.__share_root)
-
     @staticmethod
     def createSharePath(path):
         return os.path.realpath(os.path.join(SHARE_ROOT , path))
