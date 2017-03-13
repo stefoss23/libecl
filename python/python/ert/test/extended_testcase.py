@@ -19,6 +19,10 @@ SOURCE_ROOT = None
 BUILD_ROOT = None
 try:
     from test_env import *
+    assert( os.path.isdir( TESTDATA_ROOT ))
+    assert( os.path.isdir( SHARE_ROOT ))
+    assert( os.path.isdir( SOURCE_ROOT ))
+    assert( os.path.isdir( BUILD_ROOT ))
 except ImportError:
     sys.stderr.write("Warning: could not import file test_env.py - this might lead to test failures.")
 
@@ -136,43 +140,10 @@ class ExtendedTestCase(TestCase):
         if not os.path.exists(self.__share_root):
             raise IOError("Path: %s not found" % self.__share_root)
 
-<<<<<<< HEAD
-    def createTestPath(self, path):
-        full_path = os.path.realpath(os.path.join(TESTDATA_ROOT , path))
-        if os.path.exists( full_path ):
-            return full_path
-        else:
-            raise IOError("No such file or directory: %s" % full_path)
-
-
-    def createSharePath(self, path):
-        share_path = os.path.realpath(os.path.join(SHARE_PATH , path))
-        if os.path.exists( share_path ):
-            return share_path
-        else:
-            raise IOError("No such file or directory: %s" % share_path)
-
-        
     @staticmethod
-    def findShareRoot():
-        file_path = os.path.realpath(__file__)
-        build_root = os.path.realpath(os.path.join(os.path.dirname(file_path), "../../../../share/"))
-        site_packages_build_root = os.path.realpath(os.path.join(os.path.dirname(file_path), "../../../../../../share/"))
-        src_root = os.path.realpath(os.path.join(os.path.dirname(file_path), "../../../../share/"))
-        env_root = os.getenv("ERT_SHARE_PATH")
-
-        if env_root is not None and os.path.exists(env_root):
-            root = os.path.realpath(env_root)
-        elif os.path.exists(build_root):
-            root = os.path.realpath(build_root)
-        elif os.path.exists(site_packages_build_root):
-            root = os.path.realpath(site_packages_build_root)
-        elif os.path.exists(src_root):
-            root = os.path.realpath(src_root)
-        else:
-            root = None
-
-        return root
+    def createSharePath(path):
+        return os.path.realpath(os.path.join(SHARE_ROOT , path))
+    
 
     @staticmethod
     def createTestPath(path):
